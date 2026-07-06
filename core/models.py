@@ -8,7 +8,7 @@ class Case(models.Model):
     disease = models.CharField(max_length=100, verbose_name="病情")
     story = models.TextField(verbose_name="救助故事")
     result = models.TextField(verbose_name="救助结果")
-    image = models.ImageField(upload_to='cases/', verbose_name="照片")
+    image = models.ImageField(upload_to='cases/', verbose_name="照片", blank=True, null=True)
     order = models.IntegerField(default=0, verbose_name="排序")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
