@@ -17,7 +17,23 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from core import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", views.index, name="index"),
+    path("stats/", views.stats_page, name="stats"),
+    path("api/messages/", views.get_messages, name="get_messages"),
+    path("api/messages/create/", views.create_message, name="create_message"),
+    path("api/cases/", views.get_cases, name="get_cases"),
+    path("api/survey/submit/", views.submit_survey, name="submit_survey"),
+    path("api/track/visit/", views.track_visit, name="track_visit"),
+    path("api/track/scroll/", views.track_scroll, name="track_scroll"),
+    path("api/track/duration/", views.track_duration, name="track_duration"),
+    path("api/stats/", views.get_stats, name="get_stats"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

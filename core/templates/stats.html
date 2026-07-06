@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据统计 - 钢琴音乐角</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Microsoft YaHei","PingFang SC",sans-serif; background:#0a0a0a; color:#e0e0e0; }
+.header { background:#1a1a2e; padding:20px 30px; text-align:center; }
+.header h1 { font-size:1.3rem; color:#c9a96e; font-weight:300; letter-spacing:2px; }
+.container { max-width:800px; margin:40px auto; padding:0 20px; }
+.metrics { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; }
+.metric-card { background:rgba(255,255,255,0.04); border-radius:12px; padding:24px; text-align:center;
+  border:1px solid rgba(255,255,255,0.06); }
+.metric-card .value { font-size:2.4rem; color:#c9a96e; font-weight:300; }
+.metric-card .label { font-size:0.85rem; color:#888; margin-top:8px; }
+.refresh-btn { display:block; margin:30px auto 0; background:#c9a96e; color:#1a1a2e; border:none;
+  padding:10px 30px; border-radius:8px; cursor:pointer; font-size:0.9rem; }
+.refresh-btn:hover { opacity:0.85; }
+</style>
+</head>
+<body>
+<div class="header"><h1>数据统计看板</h1></div>
+<div class="container">
+  <div class="metrics" id="metrics"></div>
+  <button class="refresh-btn" onclick="loadStats()">刷新数据</button>
+</div>
+<script>
+function loadStats(){
+  fetch('/api/stats/')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var labels = {
+        uv:'页面UV（独立人数）', pv:'页面PV（总浏览次数）',
+        avg_duration_seconds:'平均停留时长（秒）', avg_scroll_percentage:'滑动完成率（%）',
+        message_count:'留言人数', survey_count:'问卷完成人数'
+      };
+      document.getElementById('metrics').innerHTML = Object.keys(labels).map(function(k){
+        return '<div class="metric-card"><div class="value">'+d[k]+'</div><div class="label">'+labels[k]+'</div></div>';
+      }).join('');
+    });
+}
+loadStats();
+</script>
+</body>
+</html>

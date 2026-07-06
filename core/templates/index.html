@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>钢琴音乐角 · 公益平台</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Microsoft YaHei","PingFang SC",sans-serif; background:#0a0a0a; color:#e0e0e0; }
+/* Hero */
+.hero { height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0;left:0;right:0;bottom:0;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, transparent 70%); }
+.hero h1 { font-size:2.2rem; font-weight:300; letter-spacing:4px; color:#c9a96e; z-index:1;
+  text-shadow:0 0 40px rgba(201,169,110,0.3); }
+.hero .guide { font-size:1.1rem; color:#aaa; margin-top:20px; z-index:1; letter-spacing:2px; }
+.hero .scroll-hint { position:absolute; bottom:40px; color:#555; font-size:0.85rem; z-index:1; animation:bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+/* Music player area */
+.music-box { margin-top:30px; z-index:1; width:90%; max-width:420px; }
+.aplayer { background:rgba(255,255,255,0.05)!important; border-radius:12px!important; border:1px solid rgba(255,255,255,0.08)!important; }
+.aplayer .aplayer-info .aplayer-music { color:#ccc!important; }
+.aplayer .aplayer-info .aplayer-controller .aplayer-time { color:#888!important; }
+/* Sections */
+.section { padding:80px 20px; max-width:900px; margin:0 auto; }
+.section h2 { text-align:center; font-size:1.6rem; color:#c9a96e; margin-bottom:40px; letter-spacing:2px; font-weight:300; }
+/* Case cards */
+.cases-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:24px; }
+.case-card { background:rgba(255,255,255,0.04); border-radius:14px; overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06); transition: transform .3s,box-shadow .3s; }
+.case-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.4); }
+.case-card img { width:100%; height:200px; object-fit:cover; }
+.case-card .card-body { padding:18px; }
+.case-card .tag { display:inline-block; background:rgba(201,169,110,0.15); color:#c9a96e; font-size:0.75rem;
+  padding:3px 10px; border-radius:20px; margin-bottom:8px; }
+.case-card h3 { font-size:1.05rem; color:#e0e0e0; margin:6px 0; }
+.case-card p { font-size:0.88rem; color:#888; line-height:1.6; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.case-card .detail-btn { display:inline-block; margin-top:12px; color:#c9a96e; font-size:0.85rem; cursor:pointer; border:none; background:none; }
+/* Case modal */
+.modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.8); z-index:100;
+  align-items:center; justify-content:center; }
+.modal-overlay.show { display:flex; }
+.modal { background:#1a1a2e; border-radius:16px; padding:30px; max-width:550px; width:90%; max-height:80vh; overflow-y:auto;
+  border:1px solid rgba(255,255,255,0.08); position:relative; }
+.modal .close { position:absolute; top:12px; right:18px; color:#888; font-size:1.5rem; cursor:pointer; background:none; border:none; }
+.modal img { width:100%; border-radius:10px; margin-bottom:16px; }
+.modal h3 { color:#c9a96e; font-size:1.2rem; margin-bottom:8px; }
+.modal .disease-tag { display:inline-block; background:rgba(201,169,110,0.15); color:#c9a96e; font-size:0.8rem; padding:3px 12px; border-radius:20px; margin-bottom:12px; }
+.modal .story { color:#ccc; line-height:1.8; margin-bottom:16px; }
+.modal .result { background:rgba(76,175,80,0.1); border-left:3px solid #4caf50; padding:12px 16px; border-radius:0 8px 8px 0; color:#aaa; line-height:1.7; }
+/* Message board */
+.msg-write { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.msg-write input, .msg-write textarea { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px;
+  color:#e0e0e0; padding:10px 14px; font-size:0.9rem; outline:none; transition:border .3s; }
+.msg-write input:focus, .msg-write textarea:focus { border-color:#c9a96e; }
+.msg-write input { flex:1; min-width:120px; }
+.msg-write .input-row { display:flex; gap:10px; width:100%; }
+.msg-write textarea { width:100%; height:80px; resize:none; }
+.msg-write button { background:#c9a96e; color:#1a1a2e; border:none; padding:10px 28px; border-radius:8px;
+  cursor:pointer; font-size:0.9rem; transition:opacity .3s; }
+.msg-write button:hover { opacity:0.85; }
+.msg-list { max-height:400px; overflow-y:auto; }
+.msg-item { display:flex; gap:12px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.msg-avatar { width:38px;height:38px; border-radius:50%; background:linear-gradient(135deg,#c9a96e,#8b6914);
+  color:#1a1a2e; display:flex;align-items:center;justify-content:center; font-size:0.85rem; flex-shrink:0; }
+.msg-name { font-size:0.85rem; color:#c9a96e; margin-bottom:4px; }
+.msg-text { font-size:0.9rem; color:#ccc; line-height:1.5; }
+.msg-time { font-size:0.75rem; color:#666; margin-left:8px; }
+/* Survey */
+.survey-float { position:fixed; right:20px; bottom:80px; z-index:50; }
+.survey-float button { background:#c9a96e; color:#1a1a2e; border:none; padding:12px 20px; border-radius:24px;
+  cursor:pointer; font-size:0.9rem; box-shadow:0 4px 20px rgba(201,169,110,0.3); transition:all .3s; }
+.survey-float button:hover { transform:scale(1.05); }
+.survey-modal { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.85); z-index:200;
+  align-items:center; justify-content:center; }
+.survey-modal.show { display:flex; }
+.survey-box { background:#1a1a2e; border-radius:16px; padding:30px; max-width:480px; width:90%;
+  border:1px solid rgba(255,255,255,0.08); max-height:85vh; overflow-y:auto; }
+.survey-box h3 { color:#c9a96e; text-align:center; margin-bottom:24px; font-weight:300; letter-spacing:2px; }
+.survey-q { margin-bottom:22px; }
+.survey-q label { display:block; color:#ccc; margin-bottom:8px; font-size:0.9rem; }
+.stars { display:flex; gap:8px; }
+.star { font-size:1.8rem; color:#444; cursor:pointer; transition:color .2s; }
+.star.active, .star:hover { color:#c9a96e; }
+.survey-box textarea { width:100%; height:80px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px; color:#e0e0e0; padding:10px 14px; font-size:0.9rem; resize:none; outline:none; }
+.survey-box textarea:focus { border-color:#c9a96e; }
+.survey-box .submit-btn { display:block; width:100%; background:#c9a96e; color:#1a1a2e; border:none; padding:12px;
+  border-radius:8px; font-size:1rem; cursor:pointer; margin-top:16px; transition:opacity .3s; }
+.survey-box .submit-btn:hover { opacity:0.85; }
+.survey-thanks { display:none; text-align:center; color:#c9a96e; padding:40px 20px; font-size:1.1rem; }
+/* Toast */
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#c9a96e; color:#1a1a2e;
+  padding:10px 28px; border-radius:20px; font-size:0.9rem; z-index:300; opacity:0; transition:opacity .3s; pointer-events:none; }
+.toast.show { opacity:1; }
+/* Footer */
+.footer { text-align:center; padding:40px; color:#444; font-size:0.8rem; }
+/* Responsive */
+@media (max-width:600px) {
+  .hero h1 { font-size:1.5rem; letter-spacing:2px; }
+  .hero .guide { font-size:0.95rem; }
+  .cases-grid { grid-template-columns:1fr; }
+  .section { padding:60px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>钢琴音乐角</h1>
+  <p class="guide">请在聆听钢琴演奏的同时，浏览网站内容</p>
+  <div class="music-box" id="aplayer"></div>
+  <p class="scroll-hint">▼ 向下滑动浏览</p>
+</section>
+
+<!-- Cases Section -->
+<section class="section" id="cases-section">
+  <h2>成功救助病例</h2>
+  <div class="cases-grid" id="cases-grid"></div>
+</section>
+
+<!-- Case Detail Modal -->
+<div class="modal-overlay" id="case-modal">
+  <div class="modal">
+    <button class="close" onclick="closeCase()">&times;</button>
+    <img id="case-img" src="" alt="">
+    <h3 id="case-name"></h3>
+    <span class="disease-tag" id="case-disease"></span>
+    <div class="story" id="case-story"></div>
+    <div class="result" id="case-result"></div>
+  </div>
+</div>
+
+<!-- Message Board Section -->
+<section class="section" id="msg-section">
+  <h2>留言板</h2>
+  <div class="msg-write">
+    <div class="input-row">
+      <input type="text" id="msg-name" placeholder="你的昵称" maxlength="20">
+    </div>
+    <textarea id="msg-content" placeholder="写留言（最多500字）" maxlength="500"></textarea>
+    <button onclick="sendMessage()">发布留言</button>
+  </div>
+  <div class="msg-list" id="msg-list"></div>
+</section>
+
+<!-- Survey Float Button -->
+<div class="survey-float">
+  <button onclick="openSurvey()">反馈问卷</button>
+</div>
+
+<!-- Survey Modal -->
+<div class="survey-modal" id="survey-modal">
+  <div class="survey-box" id="survey-form-box">
+    <button class="close" onclick="closeSurvey()" style="position:absolute;top:12px;right:18px;">&times;</button>
+    <h3>反馈问卷</h3>
+    <div class="survey-q"><label>这个页面让我愿意继续了解公益内容</label><div class="stars" data-q="1"></div></div>
+    <div class="survey-q"><label>我认为音乐与公益结合是有意义的</label><div class="stars" data-q="2"></div></div>
+    <div class="survey-q"><label>我愿意进一步了解这个平台</label><div class="stars" data-q="3"></div></div>
+    <div class="survey-q"><label>我愿意参与类似公益活动</label><div class="stars" data-q="4"></div></div>
+    <div class="survey-q"><label>请留下一句话</label><textarea id="survey-q5" placeholder="写下你想说的话..."></textarea></div>
+    <button class="submit-btn" onclick="submitSurvey()">提交问卷</button>
+  </div>
+  <div class="survey-thanks" id="survey-thanks">感谢你的反馈！</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">钢琴音乐角 · 公益平台 © 2026</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script>
+<script>
+// ===== Session ID for tracking =====
+var SID = 's_' + Date.now() + '_' + Math.random().toString(36).substr(2,8);
+var startTime = Date.now();
+
+// ===== Toast =====
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2000);
+}
+
+// ===== Cases =====
+function loadCases() {
+  fetch('/api/cases/')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var g = document.getElementById('cases-grid');
+      g.innerHTML = d.cases.map(function(c){
+        return '<div class="case-card">'
+          + (c.image_url ? '<img src="'+c.image_url+'" alt="'+c.name+'">' : '<div style="height:200px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;color:#555;">暂无照片</div>')
+          + '<div class="card-body"><span class="tag">'+c.disease+'</span><h3>'+c.name+'</h3><p>'+c.story.substr(0,80)+'...</p>'
+          + '<button class="detail-btn" onclick="openCase('+c.id+')">查看详情 →</button></div></div>';
+      }).join('');
+    });
+}
+
+function openCase(id) {
+  fetch('/api/cases/')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var c = d.cases.find(function(x){ return x.id===id; });
+      if(!c) return;
+      document.getElementById('case-img').src = c.image_url;
+      document.getElementById('case-name').textContent = c.name;
+      document.getElementById('case-disease').textContent = c.disease;
+      document.getElementById('case-story').textContent = c.story;
+      document.getElementById('case-result').textContent = '救助结果：'+c.result;
+      document.getElementById('case-modal').classList.add('show');
+    });
+}
+
+function closeCase() {
+  document.getElementById('case-modal').classList.remove('show');
+}
+document.getElementById('case-modal').addEventListener('click', function(e){
+  if(e.target===this) closeCase();
+});
+
+// ===== Messages =====
+function loadMessages() {
+  fetch('/api/messages/')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var l = document.getElementById('msg-list');
+      l.innerHTML = d.messages.map(function(m){
+        return '<div class="msg-item"><div class="msg-avatar">'+m.username.charAt(0)+'</div>'
+          + '<div><div class="msg-name">'+m.username+'<span class="msg-time">'+m.created_at+'</span></div>'
+          + '<div class="msg-text">'+m.content+'</div></div></div>';
+      }).join('');
+    });
+}
+
+function sendMessage() {
+  var name = document.getElementById('msg-name').value.trim() || '匿名';
+  var content = document.getElementById('msg-content').value.trim();
+  if(!content) { toast('请输入留言内容'); return; }
+  var fd = new FormData();
+  fd.append('username', name); fd.append('content', content);
+  fetch('/api/messages/create/', { method:'POST', body:fd })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.ok) { document.getElementById('msg-content').value=''; loadMessages(); toast('留言成功'); }
+      else { toast(d.error); }
+    });
+}
+
+// ===== Survey =====
+var surveyScores = {1:0,2:0,3:0,4:0};
+
+(function initStars(){
+  document.querySelectorAll('.stars').forEach(function(s){
+    for(var i=1;i<=5;i++){
+      var star = document.createElement('span');
+      star.className = 'star'; star.textContent = '★'; star.dataset.v = i;
+      star.addEventListener('click', function(){
+        var v = parseInt(this.dataset.v);
+        var q = parseInt(this.parentElement.dataset.q);
+        surveyScores[q] = v;
+        updateStars(this.parentElement, v);
+      });
+      s.appendChild(star);
+    }
+  });
+})();
+
+function updateStars(el, v){
+  Array.from(el.children).forEach(function(s,i){ s.classList.toggle('active', i<v); });
+}
+
+function openSurvey() { document.getElementById('survey-modal').classList.add('show'); }
+function closeSurvey() { document.getElementById('survey-modal').classList.remove('show'); }
+
+document.getElementById('survey-modal').addEventListener('click', function(e){
+  if(e.target===this) closeSurvey();
+});
+
+function submitSurvey() {
+  if(!surveyScores[1]||!surveyScores[2]||!surveyScores[3]||!surveyScores[4]) { toast('请完成全部评分题'); return; }
+  var fd = new FormData();
+  fd.append('q1',surveyScores[1]); fd.append('q2',surveyScores[2]);
+  fd.append('q3',surveyScores[3]); fd.append('q4',surveyScores[4]);
+  fd.append('q5', document.getElementById('survey-q5').value);
+  fetch('/api/survey/submit/', { method:'POST', body:fd })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.ok) { document.getElementById('survey-form-box').style.display='none';
+        document.getElementById('survey-thanks').style.display='block';
+        setTimeout(closeSurvey, 2000); }
+    });
+}
+
+// ===== Tracking =====
+fetch('/api/track/visit/', { method:'POST', body:new URLSearchParams({session_id:SID, page:'index'}) });
+
+var scrollPct = 0;
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var pct = Math.round((h.scrollTop/(h.scrollHeight-h.clientHeight))*100);
+  if(pct>scrollPct) { scrollPct=pct; }
+});
+
+window.addEventListener('beforeunload', function(){
+  var dur = Math.round((Date.now()-startTime)/1000);
+  var fd = new URLSearchParams({session_id:SID, duration_seconds:dur, scroll_percentage:scrollPct});
+  navigator.sendBeacon('/api/track/duration/', fd);
+  navigator.sendBeacon('/api/track/scroll/', fd);
+});
+
+// ===== Init =====
+loadCases();
+loadMessages();
+</script>
+</body>
+</html>
