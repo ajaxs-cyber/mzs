@@ -1,0 +1,78 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.dash-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 22px 18px;
+  text-align: center;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  border: 1px solid #eee;
+}
+.dash-card .dash-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #417690;
+  line-height: 1.2;
+}
+.dash-card .dash-label {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 6px;
+}
+.module caption { background: #417690; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+  <div class="dash-card">
+    <div class="dash-value" id="d-uv">-</div>
+    <div class="dash-label">页面 UV（独立人数）</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-value" id="d-pv">-</div>
+    <div class="dash-label">页面 PV（总浏览）</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-value" id="d-dur">-</div>
+    <div class="dash-label">平均停留时长(秒)</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-value" id="d-scroll">-</div>
+    <div class="dash-label">滑动完成率(%)</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-value" id="d-msg">-</div>
+    <div class="dash-label">留言人数</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-value" id="d-survey">-</div>
+    <div class="dash-label">问卷完成人数</div>
+  </div>
+</div>
+
+{{ block.super }}
+
+<script>
+fetch('/api/stats/')
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    document.getElementById('d-uv').textContent = d.uv;
+    document.getElementById('d-pv').textContent = d.pv;
+    document.getElementById('d-dur').textContent = d.avg_duration_seconds;
+    document.getElementById('d-scroll').textContent = d.avg_scroll_percentage;
+    document.getElementById('d-msg').textContent = d.message_count;
+    document.getElementById('d-survey').textContent = d.survey_count;
+  });
+</script>
+{% endblock %}
