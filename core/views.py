@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Avg
+from django.utils import timezone
 from .models import Case, Message, SurveyResponse, PageVisit
 
 
@@ -24,7 +25,7 @@ def get_messages(request):
         'id': m.id,
         'username': m.username,
         'content': m.content,
-        'created_at': m.created_at.strftime('%m-%d %H:%M'),
+        'created_at': timezone.localtime(m.created_at).strftime('%m-%d %H:%M'),
     } for m in messages]
     return JsonResponse({'messages': data})
 
