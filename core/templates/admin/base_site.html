@@ -5,3 +5,404 @@
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">钢琴音乐角 · 管理后台</a></h1>
 {% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<style>
+:root {
+  --gold: #c9a96e;
+  --gold-dark: #a6843d;
+  --bg-dark: #0f0f14;
+  --bg-card: #1a1a24;
+  --bg-sidebar: #12121a;
+  --border: rgba(255,255,255,0.08);
+  --text: #d0d0d0;
+  --text-dim: #888;
+  --accent: #417690;
+}
+
+/* ═══ Body ═══ */
+body {
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: "PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+}
+body.login {
+  background: linear-gradient(160deg, #0f0f14 0%, #1a1a2e 50%, #0f0f1a 100%);
+}
+
+/* ═══ Header ═══ */
+#header {
+  background: var(--bg-sidebar);
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+  color: var(--gold);
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+}
+#header a { color: var(--gold); }
+#header #branding h1 { font-weight: 300; letter-spacing: 2px; font-size: 1.05rem; }
+#header #branding h1 a { color: var(--gold); text-decoration: none; }
+#header #user-tools { font-size: 0.78rem; color: #666; }
+#header #user-tools a { color: var(--gold); border-bottom: none; }
+
+/* ══ Breadcrumbs ══ */
+div.breadcrumbs {
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  font-size: 0.8rem;
+  color: #666;
+}
+div.breadcrumbs a { color: var(--gold); }
+
+/* ═══ Sidebar ═══ */
+#nav-sidebar {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+}
+#nav-sidebar .module caption {
+  background: transparent;
+  color: var(--gold);
+  font-weight: 400;
+  letter-spacing: 2px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  padding: 16px 16px 8px;
+  border-bottom: 1px solid rgba(201,169,110,0.1);
+}
+#nav-sidebar .module th { background: transparent; }
+#nav-sidebar .module td, #nav-sidebar .module th { border-bottom: none; padding: 2px 0; }
+#nav-sidebar .module a {
+  color: var(--text);
+  padding: 4px 16px;
+  display: block;
+  border-radius: 0;
+  transition: all .2s;
+  font-size: 0.85rem;
+}
+#nav-sidebar .module a:hover,
+#nav-sidebar .module a:focus {
+  background: rgba(201,169,110,0.08);
+  color: var(--gold);
+}
+#nav-sidebar .module a.active,
+#nav-sidebar .module a.current {
+  background: rgba(201,169,110,0.12);
+  color: var(--gold);
+  font-weight: 500;
+}
+#nav-sidebar .module a.addlink { padding-left: 30px; }
+
+/* ═══ Content ═══ */
+#content {
+  padding: 24px 28px;
+}
+#content h1 {
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--gold);
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+}
+
+/* ═══ Modules / Cards ═══ */
+.module {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: none;
+}
+.module caption {
+  background: rgba(201,169,110,0.08) !important;
+  color: var(--gold) !important;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  padding: 12px 16px;
+  border-radius: 12px 12px 0 0;
+  text-transform: none;
+}
+.module h2 {
+  background: rgba(201,169,110,0.06);
+  color: var(--gold);
+  font-weight: 400;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  border-radius: 12px 12px 0 0;
+}
+
+/* ═══ Tables ═══ */
+#changelist .results {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+thead th {
+  background: rgba(0,0,0,0.2);
+  color: var(--text-dim);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  padding: 12px 14px;
+  text-transform: none;
+  border-bottom: 1px solid var(--border);
+}
+thead th a { color: var(--text-dim); }
+thead th.sorted .text a { color: var(--gold); }
+thead th.sorted .sortoptions a.sortremove::after { color: var(--text-dim); }
+tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.85rem;
+  vertical-align: middle;
+}
+tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
+tbody tr:hover td { background: rgba(201,169,110,0.03); }
+tbody td a { color: var(--gold); }
+tbody td.field-__str__ a { font-weight: 500; }
+
+/* ═══ Forms ═══ */
+form .form-row {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 14px 0;
+}
+form .form-row label {
+  color: var(--text);
+  font-size: 0.85rem;
+}
+.form-row input, .form-row textarea, .form-row select {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.88rem;
+}
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+  border-color: var(--gold);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(201,169,110,0.1);
+}
+.submit-row {
+  background: transparent !important;
+  border: none !important;
+  padding: 16px 0;
+}
+
+/* ═══ Buttons ═══ */
+.button, input[type="submit"], input[type="button"],
+.submit-row input, button[type="submit"] {
+  background: var(--gold-dark);
+  color: #fff;
+  border: none;
+  padding: 9px 22px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity .2s;
+  letter-spacing: 0.5px;
+}
+.button:hover, input[type="submit"]:hover {
+  opacity: 0.85;
+  background: var(--gold-dark);
+}
+.button.default, input[type="submit"].default {
+  background: var(--gold);
+  color: #1a1a2e;
+  font-weight: 500;
+}
+.button.default:hover { opacity: 0.85; background: var(--gold); }
+a.button { border-bottom: none; color: #fff !important; }
+a.deletelink {
+  background: #ba2121;
+  color: #fff;
+  border-radius: 6px;
+  padding: 9px 16px;
+}
+a.deletelink:hover { opacity: 0.85; }
+
+/* ═══ Object Tools ═══ */
+.object-tools { margin-top: -40px; }
+.object-tools a.addlink,
+.object-tools a.historylink {
+  background: var(--gold-dark);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  transition: opacity .2s;
+  border-bottom: none;
+}
+.object-tools a.addlink:hover { opacity: 0.85; }
+
+/* ═══ Changelist ═══ */
+#changelist-filter {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+#changelist-filter h2 {
+  background: transparent;
+  color: var(--gold);
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+#changelist-filter li.selected a { color: var(--gold) !important; }
+#changelist-filter a { color: var(--text-dim); }
+#changelist-filter a:hover { color: var(--gold); }
+#changelist-search { margin-bottom: 16px; }
+#changelist-search input[type="text"] {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+/* ═══ Paginator ═══ */
+#changelist .paginator {
+  background: rgba(0,0,0,0.1);
+  border-top: 1px solid var(--border);
+  padding: 10px;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+.paginator a { color: var(--gold); }
+
+/* ═══ Messages ═══ */
+.messagelist li {
+  background: rgba(201,169,110,0.08);
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 8px;
+  color: var(--gold);
+  padding: 10px 16px;
+  font-size: 0.85rem;
+}
+.messagelist li.success { background: rgba(100,180,120,0.08); border-color: rgba(100,180,120,0.2); color: #8cd4a0; }
+.messagelist li.warning { background: rgba(200,160,60,0.08); border-color: rgba(200,160,60,0.2); color: #d4b060; }
+.messagelist li.error { background: rgba(200,80,60,0.08); border-color: rgba(200,80,60,0.2); color: #e07b5a; }
+
+/* ═══ Login Page ═══ */
+.login #container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 32px;
+  margin-top: 60px;
+}
+.login #header { background: transparent; border: none; }
+.login #content { padding: 0; }
+.login .form-row label { color: var(--text); }
+.login .form-row input {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.login .submit-row input {
+  width: 100%;
+  background: var(--gold);
+  color: #1a1a2e;
+  padding: 12px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+}
+
+/* ═══ Dashboard Cards ═══ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: border-color .2s, transform .2s;
+}
+.dash-card:hover {
+  border-color: rgba(201,169,110,0.2);
+  transform: translateY(-1px);
+}
+.dash-card .dash-value {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--gold);
+}
+.dash-card .dash-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* ═══ App List ═══ */
+.app-list .module table th { background: transparent; }
+.app-list .module table a { color: var(--gold); }
+.app-list .module table td { border-bottom: 1px solid rgba(255,255,255,0.04); }
+
+/* ═══ Fieldset ═══ */
+fieldset.module {
+  border: none;
+}
+.module.aligned h2 {
+  background: rgba(201,169,110,0.04);
+  color: var(--gold);
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+}
+
+/* ═══ Dark scrollbar ═══ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══ Help text ═══ */
+.help { color: var(--text-dim); font-size: 0.75rem; }
+
+/* ═══ Related widget (FK select) ═══ */
+.related-widget-wrapper select {
+  background: rgba(0,0,0,0.25);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.selector-available h2, .selector-chosen h2 {
+  background: rgba(201,169,110,0.08);
+  color: var(--gold);
+  font-weight: 400;
+}
+
+/* ═══ Admin actions ═══ */
+#changelist .actions {
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+}
+#changelist .actions select {
+  background: rgba(0,0,0,0.25);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+</style>
+{% endblock %}
