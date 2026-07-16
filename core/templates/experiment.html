@@ -3,84 +3,393 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AB对照实验 - 钢琴音乐角</title>
+<title>AB 对照实验 — 钢琴音乐角</title>
 <style>
+:root {
+  --gold: #c9a96e;
+  --gold-dim: rgba(201,169,110,0.15);
+  --bg: #0a0a0c;
+  --card: rgba(255,255,255,0.025);
+  --border: rgba(255,255,255,0.06);
+  --a-color: #e07b5a;
+  --b-color: #5abebe;
+}
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: "Microsoft YaHei","PingFang SC",sans-serif; background:#0a0a0a; color:#e0e0e0; min-height:100vh; }
-.header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding:30px 20px; text-align:center; border-bottom:1px solid rgba(201,169,110,0.2); }
-.header h1 { font-size:1.6rem; color:#c9a96e; font-weight:300; letter-spacing:3px; }
-.header p { color:#888; font-size:0.85rem; margin-top:8px; }
-.container { max-width:900px; margin:0 auto; padding:30px 20px 60px; }
+body {
+  font-family: "PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+  background: var(--bg);
+  color: #d0d0d0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-.table-wrapper { background:rgba(255,255,255,0.03); border-radius:16px; padding:4px; border:1px solid rgba(255,255,255,0.08); overflow-x:auto; }
-table { width:100%; border-collapse:collapse; font-size:0.95rem; }
-thead th { background:rgba(201,169,110,0.12); color:#c9a96e; padding:14px 16px; text-align:center; font-weight:400; letter-spacing:1px; border-bottom:2px solid rgba(201,169,110,0.3); }
-thead th:first-child { text-align:left; padding-left:24px; }
-tbody td { padding:13px 16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05); color:#ddd; }
-tbody td:first-child { text-align:left; padding-left:24px; color:#c9a96e; font-weight:500; }
-tbody tr:hover { background:rgba(201,169,110,0.04); }
-tbody tr:last-child td { border-bottom:none; }
+/* ── Hero ── */
+.hero {
+  position: relative;
+  padding: 56px 24px 48px;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(165deg, #0f0f1a 0%, #141428 30%, #1a1a2e 60%, #0f0f2a 100%);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; left: -10%;
+  width: 120%; height: 180%;
+  background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
+              radial-gradient(ellipse 30% 40% at 80% 20%, rgba(90,190,190,0.04) 0%, transparent 60%),
+              radial-gradient(ellipse 30% 40% at 20% 80%, rgba(224,123,90,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 4px 16px;
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero h1 {
+  font-size: 2.2rem;
+  color: #f0e6d3;
+  font-weight: 300;
+  letter-spacing: 4px;
+  position: relative;
+}
+.hero p.sub {
+  color: #777;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  letter-spacing: 2px;
+  position: relative;
+}
 
-.highlight-a { color:#e07b5a; }
-.highlight-b { color:#5abebe; font-weight:500; }
-.badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:0.75rem; }
-.badge-a { background:rgba(224,123,90,0.15); color:#e07b5a; }
-.badge-b { background:rgba(90,190,190,0.15); color:#5abebe; }
+/* ── Layout ── */
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px 60px; }
 
-.analysis { background:rgba(255,255,255,0.03); border-radius:16px; padding:30px; margin-top:30px; border:1px solid rgba(255,255,255,0.08); }
-.analysis h2 { color:#c9a96e; font-size:1.1rem; font-weight:400; letter-spacing:1px; margin-bottom:18px; }
-.analysis p { color:#bbb; line-height:2; font-size:0.92rem; text-align:justify; text-indent:2em; }
+.nav-row {
+  display: flex; justify-content: center; gap: 28px;
+  padding: 20px 0;
+}
+.nav-row a {
+  color: #666; text-decoration: none; font-size: 0.82rem;
+  transition: color .25s; letter-spacing: 1px;
+}
+.nav-row a:hover { color: var(--gold); }
 
-.nav { text-align:center; margin-bottom:20px; }
-.nav a { color:#888; text-decoration:none; font-size:0.85rem; margin:0 12px; transition:color 0.2s; }
-.nav a:hover { color:#c9a96e; }
+/* ── KPI Cards ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+@media (max-width: 800px) { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
 
-.refresh-btn { display:block; margin:30px auto 0; background:rgba(201,169,110,0.15); color:#c9a96e; border:1px solid rgba(201,169,110,0.3);
-  padding:10px 30px; border-radius:8px; cursor:pointer; font-size:0.9rem; transition:all 0.2s; }
-.refresh-btn:hover { background:rgba(201,169,110,0.25); }
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 18px;
+  text-align: center;
+  transition: transform .25s, border-color .25s;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.14); }
+.kpi-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 2px;
+}
+.kpi-card:nth-child(1)::after { background: var(--b-color); }
+.kpi-card:nth-child(2)::after { background: var(--b-color); }
+.kpi-card:nth-child(3)::after { background: var(--gold); }
+.kpi-card:nth-child(4)::after { background: var(--gold); }
+
+.kpi-value {
+  font-size: 2rem; font-weight: 300; letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--gold), #e8cf92);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.kpi-label {
+  font-size: 0.78rem; color: #777; margin-top: 6px; letter-spacing: 1px;
+}
+.kpi-delta {
+  font-size: 0.75rem; margin-top: 4px; color: var(--b-color);
+}
+
+/* ── Table ── */
+.table-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+.table-header-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.table-header-bar h3 {
+  color: var(--gold); font-size: 0.95rem; font-weight: 400; letter-spacing: 2px;
+}
+.table-header-bar .legend { display: flex; gap: 20px; }
+.legend span { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
+.legend .dot { width: 10px; height: 10px; border-radius: 3px; }
+.legend .dot.a { background: var(--a-color); }
+.legend .dot.b { background: var(--b-color); }
+
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 14px 20px; text-align: center; font-weight: 400;
+  font-size: 0.8rem; color: #888; letter-spacing: 1px;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid var(--border);
+}
+thead th:first-child { text-align: left; padding-left: 28px; }
+
+tbody td {
+  padding: 15px 20px; text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 0.92rem;
+  transition: background .2s;
+}
+tbody td:first-child { text-align: left; padding-left: 28px; color: var(--gold); font-weight: 500; }
+tbody tr:hover td { background: rgba(255,255,255,0.02); }
+tbody tr:last-child td { border-bottom: none; }
+
+.val-a { color: var(--a-color); position: relative; }
+.val-b { color: var(--b-color); position: relative; }
+
+.bar-cell { position: relative; }
+.bar-bg {
+  display: inline-block; height: 3px; border-radius: 2px;
+  vertical-align: middle; margin-left: 10px;
+  opacity: 0.4;
+}
+.bar-a { background: var(--a-color); }
+.bar-b { background: var(--b-color); }
+
+/* ── Analysis ── */
+.analysis {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px 32px;
+  margin-bottom: 32px;
+  position: relative;
+}
+.analysis::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 40px;
+  background: var(--gold);
+  border-radius: 0 0 3px 0;
+}
+.analysis h2 {
+  color: var(--gold); font-size: 1rem; font-weight: 400;
+  letter-spacing: 2px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.analysis h2::before {
+  content: ''; display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+}
+.analysis p {
+  color: #999; line-height: 2.1; font-size: 0.9rem;
+  text-align: justify;
+}
+
+/* ── Conclusion boxes ── */
+.conclusion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+@media (max-width: 800px) { .conclusion-grid { grid-template-columns: 1fr; } }
+
+.conclusion-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.conclusion-item .icon { font-size: 1.6rem; margin-bottom: 10px; }
+.conclusion-item h4 { color: #ddd; font-size: 0.85rem; font-weight: 400; margin-bottom: 6px; letter-spacing: 1px; }
+.conclusion-item p { color: #777; font-size: 0.78rem; line-height: 1.7; }
+
+/* ── Footer note ── */
+.footnote {
+  text-align: center; color: #555; font-size: 0.72rem;
+  padding: 10px 0 40px; letter-spacing: 1px;
+}
+
+/* ── Anim ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(12px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.anim { animation: fadeUp 0.6s ease both; }
+.anim:nth-child(1) { animation-delay: 0s; }
+.anim:nth-child(2) { animation-delay: 0.1s; }
+.anim:nth-child(3) { animation-delay: 0.2s; }
+.anim:nth-child(4) { animation-delay: 0.3s; }
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>AB 对照实验 · 数据看板</h1>
-  <p>钢琴演奏对用户行为影响分析</p>
-</div>
-<div class="container">
-  <div class="nav">
+
+<!-- ═══ Hero ═══ -->
+<header class="hero">
+  <div class="hero-badge">AB TEST · FIELD EXPERIMENT</div>
+  <h1>钢琴演奏行为影响分析</h1>
+  <p class="sub">音乐氛围对路人驻足、扫码、停留与互动的对照实验</p>
+</header>
+
+<div class="wrap">
+
+  <!-- Nav -->
+  <nav class="nav-row">
     <a href="/">← 返回首页</a>
-    <a href="/stats/">统计看板</a>
+    <a href="/stats/">实时统计看板</a>
+  </nav>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card anim">
+      <div class="kpi-value" id="kpi-stop">+6.4pp</div>
+      <div class="kpi-label">驻足率提升</div>
+      <div class="kpi-delta">12.0% → 18.4%</div>
+    </div>
+    <div class="kpi-card anim">
+      <div class="kpi-value" id="kpi-scan">+5.5pp</div>
+      <div class="kpi-label">扫码率提升</div>
+      <div class="kpi-delta">8.0% → 13.5%</div>
+    </div>
+    <div class="kpi-card anim">
+      <div class="kpi-value" id="kpi-duration">+87s</div>
+      <div class="kpi-label">停留时长增幅</div>
+      <div class="kpi-delta">45s → 132s</div>
+    </div>
+    <div class="kpi-card anim">
+      <div class="kpi-value" id="kpi-msg">+13.6pp</div>
+      <div class="kpi-label">留言率提升</div>
+      <div class="kpi-delta">12.5% → 26.1%</div>
+    </div>
   </div>
-  <div class="table-wrapper">
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <div class="table-header-bar">
+      <h3>DATA · 对照数据明细</h3>
+      <div class="legend">
+        <span><span class="dot a"></span>A 组 无演奏</span>
+        <span><span class="dot b"></span>B 组 有演奏</span>
+      </div>
+    </div>
     <table>
       <thead>
         <tr>
+          <th>#</th>
           <th>指标</th>
-          <th>A 组（无钢琴演奏）</th>
-          <th>B 组（有钢琴演奏）</th>
+          <th>A 组 · 无钢琴演奏</th>
+          <th>B 组 · 有钢琴演奏</th>
+          <th>变化</th>
         </tr>
       </thead>
       <tbody id="table-body">
       </tbody>
     </table>
   </div>
+
+  <!-- Analysis -->
   <div class="analysis">
     <h2>数据分析总结</h2>
     <p>在两组路过人数接近（相差仅 10 人）的前提下，B 组（有钢琴演奏）各项转化指标全面优于 A 组（无钢琴演奏）。驻足率从 12.0% 提升至 18.4%（+6.4 个百分点），扫码率从 8.0% 提升至 13.5%（+5.5 个百分点），说明钢琴演奏能够有效吸引路人注意力并激发进一步了解的意愿。进入平台后，B 组访客的平均停留时长为 132 秒，是 A 组（45 秒）的近 3 倍，表明音乐氛围显著延长了用户的浏览深度。在互动层面，B 组留言人数（18 人 vs 5 人）和留言率（26.1% vs 12.5%）均有明显优势，反映出音乐场景对情感共鸣和表达意愿的正向激发。两组问卷完成率差距较小（30.0% vs 31.9%，仅差 1.9 个百分点），说明一旦用户进入平台并愿意填答问卷，其反馈意愿在有无演奏环境下差异不大——钢琴演奏的主要价值集中在"吸引—驻足—扫码—停留"的前链路转化环节。</p>
   </div>
-  <button class="refresh-btn" onclick="loadData()">刷新数据</button>
+
+  <!-- Conclusion -->
+  <div class="conclusion-grid">
+    <div class="conclusion-item">
+      <div class="icon">🎹</div>
+      <h4>前链路拉动显著</h4>
+      <p>驻足率与扫码率提升 5-7 个百分点，音乐是有效的注意力入口</p>
+    </div>
+    <div class="conclusion-item">
+      <div class="icon">⏱</div>
+      <h4>深度浏览翻倍</h4>
+      <p>停留时长增至近 3 倍，音乐延长沉浸式浏览体验</p>
+    </div>
+    <div class="conclusion-item">
+      <div class="icon">💬</div>
+      <h4>情感互动激发</h4>
+      <p>留言率翻倍增长，音乐氛围促进情感表达意愿</p>
+    </div>
+  </div>
+
+  <p class="footnote">* 数据基于线下实地 AB 对照实验采集 · 钢琴音乐角 2026</p>
+
 </div>
+
 <script>
+var DELTA_MAP = {
+  '驻足人数': 'A组多28人',
+  '驻足率': '+6.4pp',
+  '扫码人数': 'A组多29人',
+  '扫码率': '+5.5pp',
+  '访客数': 'A组多29人',
+  '停留时长': 'A组多87秒',
+  '问卷人数': 'A组多10人',
+  '问卷完成率': '+1.9pp',
+  '留言人数': 'A组多13人',
+  '留言率': '+13.6pp',
+};
+
+var HAS_BAR = ['驻足率','扫码率','问卷完成率','留言率'];
+
 function loadData(){
   fetch('/api/experiment/')
     .then(function(r){ return r.json(); })
     .then(function(d){
-      document.getElementById('table-body').innerHTML = d.metrics.map(function(m){
-        return '<tr>'
+      var maxA = 0, maxB = 0;
+      d.metrics.forEach(function(m){
+        var va = parseFloat(m.value_a), vb = parseFloat(m.value_b);
+        if (!isNaN(va) && va > maxA) maxA = va;
+        if (!isNaN(vb) && vb > maxB) maxB = vb;
+      });
+
+      var html = '';
+      d.metrics.forEach(function(m, i){
+        var delta = DELTA_MAP[m.metric_name] || '';
+        var deltaClass = delta.indexOf('+')===0 ? 'val-b' : 'val-a';
+        var aPct = parseFloat(m.value_a), bPct = parseFloat(m.value_b);
+        var showBar = HAS_BAR.indexOf(m.metric_name) >= 0 && !isNaN(aPct) && !isNaN(bPct);
+        var barA = showBar ? (aPct/100*120) : 0;
+        var barB = showBar ? (bPct/100*120) : 0;
+
+        html += '<tr class="anim" style="animation-delay:'+(i*0.05)+'s">'
+          + '<td style="color:#555;font-size:0.75rem;width:40px;">'+(String(i+1).padStart(2,'0'))+'</td>'
           + '<td>'+m.metric_name+'</td>'
-          + '<td class="highlight-a">'+m.value_a+'</td>'
-          + '<td class="highlight-b">'+m.value_b+'</td>'
+          + '<td class="val-a bar-cell">'+m.value_a
+          + (showBar ? '<span class="bar-bg bar-a" style="width:'+barA+'px"></span>' : '')
+          + '</td>'
+          + '<td class="val-b bar-cell">'+m.value_b
+          + (showBar ? '<span class="bar-bg bar-b" style="width:'+barB+'px"></span>' : '')
+          + '</td>'
+          + '<td class="'+deltaClass+'" style="font-size:0.78rem;">'+delta+'</td>'
           + '</tr>';
-      }).join('');
+      });
+      document.getElementById('table-body').innerHTML = html;
     });
 }
 loadData();
