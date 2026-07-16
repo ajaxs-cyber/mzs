@@ -6,59 +6,38 @@
 <title>注册 · 钢琴音乐角</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Microsoft YaHei","PingFang SC","Noto Serif SC",serif; background:#faf8f5; color:#3a3a3a;
-  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.auth-card { background:#fff; border-radius:16px; padding:40px 36px; width:90%; max-width:400px;
-  box-shadow:0 4px 28px rgba(0,0,0,0.08); }
-.auth-card h1 { text-align:center; font-size:1.4rem; color:#8b6914; font-weight:300; letter-spacing:3px; margin-bottom:6px; }
-.auth-card .sub { text-align:center; color:#aaa; font-size:0.85rem; margin-bottom:28px; }
-.form-group { margin-bottom:18px; }
-.form-group label { display:block; color:#666; font-size:0.85rem; margin-bottom:5px; }
-.f-input { width:100%; padding:11px 14px; border:1px solid #e0dcd5; border-radius:8px; font-size:0.9rem;
-  outline:none; background:#faf8f5; transition:border .3s; font-family:inherit; }
-.f-input:focus { border-color:#d4b87a; }
-.field-error { color:#c0392b; font-size:0.78rem; margin-top:4px; }
-.global-error { background:#fdf0ef; color:#c0392b; padding:10px 14px; border-radius:8px; margin-bottom:20px; font-size:0.85rem; text-align:center; }
-.btn { width:100%; background:#8b6914; color:#fff; border:none; padding:12px; border-radius:8px; font-size:1rem;
-  cursor:pointer; transition:opacity .3s; }
+body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:radial-gradient(ellipse 70% 50% at 50% 30%, rgba(180,160,100,0.06) 0%, transparent 60%),#0a0a10; color:#c8c8c8; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; }
+.auth-card { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:40px 36px; width:90%; max-width:400px; }
+.auth-card h1 { text-align:center; font-size:1.3rem; color:#c9a96e; font-weight:300; letter-spacing:4px; margin-bottom:8px; }
+.auth-card .sub { text-align:center; color:#666; font-size:0.82rem; margin-bottom:28px; letter-spacing:1px; }
+.form-group { margin-bottom:16px; }
+.form-group label { display:block; color:#888; font-size:0.82rem; margin-bottom:6px; }
+.f-input { width:100%; padding:11px 14px; border:1px solid rgba(255,255,255,0.08); border-radius:8px; font-size:0.9rem; outline:none; background:rgba(0,0,0,0.22); color:#ccc; transition:border .3s; font-family:inherit; }
+.f-input:focus { border-color:#c9a96e; }
+.field-error { color:#e07b5a; font-size:0.76rem; margin-top:4px; }
+.global-error { background:rgba(200,60,40,0.08); border:1px solid rgba(200,60,40,0.15); color:#e07b5a; padding:10px 14px; border-radius:8px; margin-bottom:20px; font-size:0.83rem; text-align:center; }
+.btn { width:100%; background:linear-gradient(135deg,#c9a96e,#9a7b2e); color:#1a1a2e; border:none; padding:12px; border-radius:8px; font-size:0.95rem; cursor:pointer; transition:opacity .3s; letter-spacing:2px; font-weight:500; }
 .btn:hover { opacity:0.85; }
-.links { text-align:center; margin-top:20px; font-size:0.85rem; color:#999; }
-.links a { color:#8b6914; text-decoration:none; }
-.links a:hover { text-decoration:underline; }
-.back { text-align:center; margin-top:20px; }
-.back a { color:#bbb; font-size:0.8rem; text-decoration:none; }
+.links { text-align:center; margin-top:22px; font-size:0.83rem; color:#666; }
+.links a { color:#c9a96e; text-decoration:none; }
+.links a:hover { opacity:0.8; }
+.back { text-align:center; margin-top:24px; }
+.back a { color:#555; font-size:0.8rem; text-decoration:none; transition:color .2s; }
+.back a:hover { color:#c9a96e; }
 </style>
 </head>
 <body>
 <div class="auth-card">
   <h1>注册账号</h1>
   <p class="sub">加入钢琴音乐角 · 乐善同行</p>
-  {% if errors.non_field %}
-  <div class="global-error">{{ errors.non_field }}</div>
-  {% endif %}
+  {% if errors.non_field %}<div class="global-error">{{ errors.non_field }}</div>{% endif %}
   <form method="post">
     {% csrf_token %}
-    <div class="form-group">
-      <label>用户名</label>
-      <input class="f-input" type="text" name="username" placeholder="3-20位字母/数字/下划线" maxlength="20" required>
-      {% if errors.username %}<div class="field-error">{{ errors.username }}</div>{% endif %}
-    </div>
-    <div class="form-group">
-      <label>邮箱</label>
-      <input class="f-input" type="email" name="email" placeholder="用于找回密码" required>
-      {% if errors.email %}<div class="field-error">{{ errors.email }}</div>{% endif %}
-    </div>
-    <div class="form-group">
-      <label>密码</label>
-      <input class="f-input" type="password" name="password" placeholder="至少6位密码" required>
-      {% if errors.password %}<div class="field-error">{{ errors.password }}</div>{% endif %}
-    </div>
-    <div class="form-group">
-      <label>确认密码</label>
-      <input class="f-input" type="password" name="password_confirm" placeholder="再次输入密码" required>
-      {% if errors.password_confirm %}<div class="field-error">{{ errors.password_confirm }}</div>{% endif %}
-    </div>
-    <button class="btn" type="submit">注册</button>
+    <div class="form-group"><label>用户名</label><input class="f-input" type="text" name="username" placeholder="3-20位字母/数字/下划线" maxlength="20" required>{% if errors.username %}<div class="field-error">{{ errors.username }}</div>{% endif %}</div>
+    <div class="form-group"><label>邮箱</label><input class="f-input" type="email" name="email" placeholder="用于找回密码" required>{% if errors.email %}<div class="field-error">{{ errors.email }}</div>{% endif %}</div>
+    <div class="form-group"><label>密码</label><input class="f-input" type="password" name="password" placeholder="至少6位密码" required>{% if errors.password %}<div class="field-error">{{ errors.password }}</div>{% endif %}</div>
+    <div class="form-group"><label>确认密码</label><input class="f-input" type="password" name="password_confirm" placeholder="再次输入密码" required>{% if errors.password_confirm %}<div class="field-error">{{ errors.password_confirm }}</div>{% endif %}</div>
+    <button class="btn" type="submit">注 册</button>
   </form>
   <div class="links">已有账号？<a href="{% url 'login' %}">立即登录</a></div>
 </div>

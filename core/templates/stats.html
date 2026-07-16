@@ -6,40 +6,42 @@
 <title>数据统计 - 钢琴音乐角</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: "Microsoft YaHei","PingFang SC",sans-serif; background:#0a0a0a; color:#e0e0e0; }
-.header { background:#1a1a2e; padding:20px 30px; text-align:center; }
-.header h1 { font-size:1.3rem; color:#c9a96e; font-weight:300; letter-spacing:2px; }
-.container { max-width:800px; margin:40px auto; padding:0 20px; }
-.metrics { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; }
-.metric-card { background:rgba(255,255,255,0.04); border-radius:12px; padding:24px; text-align:center;
-  border:1px solid rgba(255,255,255,0.06); }
-.metric-card .value { font-size:2.4rem; color:#c9a96e; font-weight:300; }
-.metric-card .label { font-size:0.85rem; color:#888; margin-top:8px; }
-.refresh-btn { display:block; margin:30px auto 0; background:#c9a96e; color:#1a1a2e; border:none;
-  padding:10px 30px; border-radius:8px; cursor:pointer; font-size:0.9rem; }
-.refresh-btn:hover { opacity:0.85; }
+body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:#0a0a10; color:#c8c8c8; min-height:100vh; }
+.header { background:rgba(10,10,20,0.94); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.05); padding:18px 28px; text-align:center; }
+.header h1 { font-size:1.2rem; color:#c9a96e; font-weight:300; letter-spacing:4px; }
+.container { max-width:860px; margin:0 auto; padding:40px 20px 60px; }
+.metrics { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+.metric-card { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:26px 20px; text-align:center; transition:border-color .2s,transform .2s; }
+.metric-card:hover { border-color:rgba(201,169,110,0.2); transform:translateY(-2px); }
+.metric-card .value { font-size:2.2rem; color:#c9a96e; font-weight:200; }
+.metric-card .label { font-size:0.82rem; color:#777; margin-top:8px; letter-spacing:1px; }
+.nav { text-align:center; margin-bottom:24px; display:flex; justify-content:center; gap:28px; }
+.nav a { color:#666; text-decoration:none; font-size:0.83rem; transition:color .2s; letter-spacing:1px; }
+.nav a:hover { color:#c9a96e; }
+.refresh-btn { display:block; margin:30px auto 0; background:rgba(201,169,110,0.10); color:#c9a96e; border:1px solid rgba(201,169,110,0.2); padding:10px 32px; border-radius:8px; cursor:pointer; font-size:0.88rem; transition:all .2s; letter-spacing:2px; }
+.refresh-btn:hover { background:rgba(201,169,110,0.18); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.metric-card { animation:fadeIn .5s ease both; }
 </style>
 </head>
 <body>
 <div class="header"><h1>数据统计看板</h1></div>
 <div class="container">
+  <div class="nav">
+    <a href="/">← 返回首页</a>
+    <a href="/experiment/">AB对照实验</a>
+  </div>
   <div class="metrics" id="metrics"></div>
   <button class="refresh-btn" onclick="loadStats()">刷新数据</button>
 </div>
 <script>
 function loadStats(){
-  fetch('/api/stats/')
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      var labels = {
-        uv:'页面UV（独立人数）', pv:'页面PV（总浏览次数）',
-        avg_duration_seconds:'平均停留时长（秒）', avg_scroll_percentage:'滑动完成率（%）',
-        message_count:'留言人数', survey_count:'问卷完成人数'
-      };
-      document.getElementById('metrics').innerHTML = Object.keys(labels).map(function(k){
-        return '<div class="metric-card"><div class="value">'+d[k]+'</div><div class="label">'+labels[k]+'</div></div>';
-      }).join('');
-    });
+  fetch('/api/stats/').then(function(r){return r.json();}).then(function(d){
+    var labels={uv:'页面 UV（独立人数）',pv:'页面 PV（总浏览次数）',avg_duration_seconds:'平均停留时长（秒）',avg_scroll_percentage:'滑动完成率（%）',message_count:'留言人数',survey_count:'问卷完成人数'};
+    document.getElementById('metrics').innerHTML=Object.keys(labels).map(function(k,i){
+      return '<div class="metric-card" style="animation-delay:'+(i*0.06)+'s"><div class="value">'+d[k]+'</div><div class="label">'+labels[k]+'</div></div>';
+    }).join('');
+  });
 }
 loadStats();
 </script>
