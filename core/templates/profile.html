@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人中心 · 钢琴音乐角</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC","Noto Serif SC",serif; background:#faf8f5; color:#3a3a3a;
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; }
+/* Header */
+.header { width:100%; background:#fff; box-shadow:0 1px 12px rgba(0,0,0,0.06); padding:14px 24px;
+  display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10; }
+.header .logo { font-size:1.1rem; color:#8b6914; font-weight:300; letter-spacing:2px; text-decoration:none; }
+.header .nav a { color:#888; text-decoration:none; font-size:0.85rem; margin-left:20px; transition:color .2s; }
+.header .nav a:hover { color:#8b6914; }
+/* Content */
+.container { width:90%; max-width:620px; padding:40px 0 60px; }
+.profile-card { background:#fff; border-radius:16px; padding:36px; box-shadow:0 4px 28px rgba(0,0,0,0.06); }
+.profile-header { text-align:center; margin-bottom:28px; }
+.avatar-wrap { position:relative; display:inline-block; margin-bottom:14px; }
+.avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#d4b87a,#8b6914);
+  color:#fff; display:flex; align-items:center; justify-content:center; font-size:2rem; }
+.avatar img { width:80px; height:80px; border-radius:50%; object-fit:cover; }
+.profile-header h2 { font-size:1.2rem; color:#3a3a3a; }
+.profile-header .email { font-size:0.85rem; color:#aaa; margin-top:4px; }
+.info-row { display:flex; padding:12px 0; border-bottom:1px solid #f4f1ea; font-size:0.9rem; }
+.info-row .label { color:#999; width:80px; flex-shrink:0; }
+.info-row .value { color:#555; }
+/* Edit form */
+.form-group { margin-bottom:18px; }
+.form-group label { display:block; color:#666; font-size:0.85rem; margin-bottom:5px; }
+.f-input { width:100%; padding:11px 14px; border:1px solid #e0dcd5; border-radius:8px; font-size:0.9rem;
+  outline:none; background:#faf8f5; transition:border .3s; font-family:inherit; resize:vertical; }
+.f-input:focus { border-color:#d4b87a; }
+.file-hint { font-size:0.75rem; color:#bbb; margin-top:4px; }
+.btn-row { display:flex; gap:10px; margin-top:20px; }
+.btn { background:#8b6914; color:#fff; border:none; padding:10px 28px; border-radius:8px; font-size:0.9rem;
+  cursor:pointer; transition:opacity .3s; text-decoration:none; display:inline-block; }
+.btn:hover { opacity:0.85; }
+.btn-outline { background:transparent; color:#8b6914; border:1px solid #d4b87a; padding:10px 28px; border-radius:8px;
+  font-size:0.9rem; cursor:pointer; text-decoration:none; transition:all .3s; }
+.btn-outline:hover { background:rgba(139,105,20,0.06); }
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#8b6914; color:#fff;
+  padding:10px 28px; border-radius:20px; font-size:0.9rem; z-index:300; opacity:0; pointer-events:none; transition:opacity .3s; }
+.toast.show { opacity:1; }
+.back { text-align:center; margin-top:20px; }
+.back a { color:#bbb; font-size:0.8rem; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="{% url 'index' %}" class="logo">钢琴音乐角</a>
+  <nav class="nav">
+    <a href="{% url 'index' %}">首页</a>
+    <a href="{% url 'profile' %}">个人中心</a>
+    <a href="{% url 'logout' %}">退出</a>
+  </nav>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<div class="container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar-wrap">
+        {% if profile.avatar %}
+          <div class="avatar"><img src="{{ profile.avatar.url }}" alt="头像"></div>
+        {% else %}
+          <div class="avatar">{{ user.username|first|upper }}</div>
+        {% endif %}
+      </div>
+      <h2>{{ user.username }}</h2>
+      <p class="email">{{ user.email }}</p>
+    </div>
+
+    {% if success %}<script>setTimeout(function(){document.getElementById('toast').textContent='{{ success }}';document.getElementById('toast').classList.add('show');setTimeout(function(){document.getElementById('toast').classList.remove('show');},2000);},100);</script>{% endif %}
+    {% if error %}<script>setTimeout(function(){document.getElementById('toast').textContent='{{ error }}';document.getElementById('toast').classList.add('show');setTimeout(function(){document.getElementById('toast').classList.remove('show');},2000);},100);</script>{% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>头像</label>
+        <input class="f-input" type="file" name="avatar" accept="image/*">
+        <p class="file-hint">支持 JPG/PNG，建议正方形图片</p>
+      </div>
+      <div class="form-group">
+        <label>个人简介</label>
+        <textarea class="f-input" name="bio" rows="3" placeholder="介绍一下自己...">{{ profile.bio }}</textarea>
+      </div>
+      <div class="form-group">
+        <label>手机号</label>
+        <input class="f-input" type="text" name="phone" value="{{ profile.phone }}" placeholder="选填">
+      </div>
+      <div class="btn-row">
+        <button class="btn" type="submit">保存资料</button>
+        <a href="{% url 'index' %}" class="btn-outline">返回首页</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="back"><a href="{% url 'index' %}">← 返回首页</a></div>
+</div>
+
+</body>
+</html>

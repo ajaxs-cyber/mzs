@@ -25,6 +25,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("stats/", views.stats_page, name="stats"),
+    # 用户认证
+    path("register/", views.register_view, name="register"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path("profile/", views.profile_view, name="profile"),
+    # API
     path("api/messages/", views.get_messages, name="get_messages"),
     path("api/messages/create/", views.create_message, name="create_message"),
     path("api/cases/", views.get_cases, name="get_cases"),
@@ -33,6 +39,8 @@ urlpatterns = [
     path("api/track/scroll/", views.track_scroll, name="track_scroll"),
     path("api/track/duration/", views.track_duration, name="track_duration"),
     path("api/stats/", views.get_stats, name="get_stats"),
+    path("api/experiment/", views.get_experiment_data, name="get_experiment"),
+    path("experiment/", views.experiment_page, name="experiment"),
 ]
 
 if settings.DEBUG:

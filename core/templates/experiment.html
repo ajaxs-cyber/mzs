@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB对照实验 - 钢琴音乐角</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Microsoft YaHei","PingFang SC",sans-serif; background:#0a0a0a; color:#e0e0e0; min-height:100vh; }
+.header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding:30px 20px; text-align:center; border-bottom:1px solid rgba(201,169,110,0.2); }
+.header h1 { font-size:1.6rem; color:#c9a96e; font-weight:300; letter-spacing:3px; }
+.header p { color:#888; font-size:0.85rem; margin-top:8px; }
+.container { max-width:900px; margin:0 auto; padding:30px 20px 60px; }
+
+.table-wrapper { background:rgba(255,255,255,0.03); border-radius:16px; padding:4px; border:1px solid rgba(255,255,255,0.08); overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:0.95rem; }
+thead th { background:rgba(201,169,110,0.12); color:#c9a96e; padding:14px 16px; text-align:center; font-weight:400; letter-spacing:1px; border-bottom:2px solid rgba(201,169,110,0.3); }
+thead th:first-child { text-align:left; padding-left:24px; }
+tbody td { padding:13px 16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05); color:#ddd; }
+tbody td:first-child { text-align:left; padding-left:24px; color:#c9a96e; font-weight:500; }
+tbody tr:hover { background:rgba(201,169,110,0.04); }
+tbody tr:last-child td { border-bottom:none; }
+
+.highlight-a { color:#e07b5a; }
+.highlight-b { color:#5abebe; font-weight:500; }
+.badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:0.75rem; }
+.badge-a { background:rgba(224,123,90,0.15); color:#e07b5a; }
+.badge-b { background:rgba(90,190,190,0.15); color:#5abebe; }
+
+.analysis { background:rgba(255,255,255,0.03); border-radius:16px; padding:30px; margin-top:30px; border:1px solid rgba(255,255,255,0.08); }
+.analysis h2 { color:#c9a96e; font-size:1.1rem; font-weight:400; letter-spacing:1px; margin-bottom:18px; }
+.analysis p { color:#bbb; line-height:2; font-size:0.92rem; text-align:justify; text-indent:2em; }
+
+.nav { text-align:center; margin-bottom:20px; }
+.nav a { color:#888; text-decoration:none; font-size:0.85rem; margin:0 12px; transition:color 0.2s; }
+.nav a:hover { color:#c9a96e; }
+
+.refresh-btn { display:block; margin:30px auto 0; background:rgba(201,169,110,0.15); color:#c9a96e; border:1px solid rgba(201,169,110,0.3);
+  padding:10px 30px; border-radius:8px; cursor:pointer; font-size:0.9rem; transition:all 0.2s; }
+.refresh-btn:hover { background:rgba(201,169,110,0.25); }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>AB 对照实验 · 数据看板</h1>
+  <p>钢琴演奏对用户行为影响分析</p>
+</div>
+<div class="container">
+  <div class="nav">
+    <a href="/">← 返回首页</a>
+    <a href="/stats/">统计看板</a>
+  </div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>指标</th>
+          <th>A 组（无钢琴演奏）</th>
+          <th>B 组（有钢琴演奏）</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+  </div>
+  <div class="analysis">
+    <h2>数据分析总结</h2>
+    <p>在两组路过人数接近（相差仅 10 人）的前提下，B 组（有钢琴演奏）各项转化指标全面优于 A 组（无钢琴演奏）。驻足率从 12.0% 提升至 18.4%（+6.4 个百分点），扫码率从 8.0% 提升至 13.5%（+5.5 个百分点），说明钢琴演奏能够有效吸引路人注意力并激发进一步了解的意愿。进入平台后，B 组访客的平均停留时长为 132 秒，是 A 组（45 秒）的近 3 倍，表明音乐氛围显著延长了用户的浏览深度。在互动层面，B 组留言人数（18 人 vs 5 人）和留言率（26.1% vs 12.5%）均有明显优势，反映出音乐场景对情感共鸣和表达意愿的正向激发。两组问卷完成率差距较小（30.0% vs 31.9%，仅差 1.9 个百分点），说明一旦用户进入平台并愿意填答问卷，其反馈意愿在有无演奏环境下差异不大——钢琴演奏的主要价值集中在"吸引—驻足—扫码—停留"的前链路转化环节。</p>
+  </div>
+  <button class="refresh-btn" onclick="loadData()">刷新数据</button>
+</div>
+<script>
+function loadData(){
+  fetch('/api/experiment/')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      document.getElementById('table-body').innerHTML = d.metrics.map(function(m){
+        return '<tr>'
+          + '<td>'+m.metric_name+'</td>'
+          + '<td class="highlight-a">'+m.value_a+'</td>'
+          + '<td class="highlight-b">'+m.value_b+'</td>'
+          + '</tr>';
+      }).join('');
+    });
+}
+loadData();
+</script>
+</body>
+</html>

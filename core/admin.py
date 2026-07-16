@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import Count, Avg
-from .models import Case, Message, SurveyResponse, PageVisit
+from .models import Case, Message, SurveyResponse, PageVisit, UserProfile, ExperimentMetric
 
 
 @admin.register(Case)
@@ -86,3 +86,18 @@ class PageVisitAdmin(admin.ModelAdmin):
         m, sec = divmod(s, 60)
         return f'{m}分{sec}秒'
     duration_display.short_description = '停留时长'
+
+
+@admin.register(ExperimentMetric)
+class ExperimentMetricAdmin(admin.ModelAdmin):
+    list_display = ['order', 'metric_name', 'value_a', 'value_b']
+    list_display_links = ['metric_name']
+    list_editable = ['order', 'value_a', 'value_b']
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'phone', 'email_verified', 'created_at']
+    list_filter = ['email_verified', 'created_at']
+    search_fields = ['user__username', 'user__email', 'phone']
+    list_per_page = 30
