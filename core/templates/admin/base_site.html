@@ -8,312 +8,159 @@
 
 {% block extrahead %}{{ block.super }}
 <style>
-/* ══════════════════════════════════════════
-   钢琴音乐角 管理后台 — 金棕深色主题
-   ══════════════════════════════════════════ */
+/* ═══ 纯颜色替换，不动布局 ═══ */
 
-/* ── 基础变量 ── */
-:root {
-  --gold: #c9a96e;
-  --gold-dark: #a6843d;
-  --dark-bg: #111119;
-  --card-bg: #1a1a26;
-  --input-bg: rgba(0,0,0,0.30);
-  --border: rgba(255,255,255,0.07);
-  --text: #d4d4d4;
-  --muted: #7a7a8a;
-}
-
-/* ── 全局 ── */
+/* ── body ── */
 body {
-  background: var(--dark-bg);
-  color: var(--text);
-  font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+  background: #111119;
+  color: #d0d0d0;
 }
 body.login {
-  background: linear-gradient(155deg, #0c0c14 0%, #181830 50%, #0c0c18 100%);
+  background: linear-gradient(155deg, #0c0c16 0%, #181830 50%, #0c0c1a 100%);
 }
-body.popup { background: var(--dark-bg); }
 
-/* ── 顶部 Header ── */
+/* ── header ── */
 #header {
-  background: #13131f;
-  color: var(--gold);
+  background: #131320;
+  color: #c9a96e;
   border-bottom: 1px solid rgba(201,169,110,0.15);
-  height: 50px;
-  line-height: 50px;
-  padding: 0 22px;
-  overflow: visible;
 }
-#header #branding h1 {
-  font-weight: 300;
-  letter-spacing: 3px;
-  font-size: 1rem;
-  margin: 0;
-}
-#header #branding h1 a,
-#header #branding h1 a:link,
-#header #branding h1 a:visited { color: var(--gold); }
-#header #user-tools {
-  font-size: 0.78rem;
-  color: var(--muted);
-  height: 50px;
-  line-height: 50px;
-}
-#header #user-tools a {
-  color: var(--gold);
-  border-bottom: none;
-}
+#header a:link, #header a:visited { color: #c9a96e; }
+#header #user-tools { color: #777; }
+#header #user-tools a { color: #c9a96e; }
 
-/* ── 面包屑 ── */
+/* ── breadcrumbs ── */
 div.breadcrumbs {
   background: rgba(255,255,255,0.02);
-  border-bottom: 1px solid var(--border);
-  padding: 8px 22px;
-  font-size: 0.78rem;
-  color: var(--muted);
+  color: #777;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-div.breadcrumbs a { color: var(--gold); }
+div.breadcrumbs a { color: #c9a96e; }
 
 /* ── 侧边栏 ── */
 #nav-sidebar {
-  background: #13131f;
-  border-right: 1px solid var(--border);
-}
-#nav-sidebar .module caption {
-  color: var(--gold);
-  font-size: 0.72rem;
-  letter-spacing: 2px;
-  padding: 14px 14px 6px;
-  background: transparent;
-  border-bottom: 1px solid rgba(201,169,110,0.10);
-}
-#nav-sidebar .module th,
-#nav-sidebar .module td { border: none; padding: 1px 0; }
-#nav-sidebar .module a {
-  color: #aaa;
-  padding: 5px 14px;
-  transition: all .15s;
-}
-#nav-sidebar .module a:hover,
-#nav-sidebar .module a:focus {
-  background: rgba(201,169,110,0.07);
-  color: var(--gold);
-}
-#nav-sidebar .module a.current,
-#nav-sidebar .module a.active {
-  background: rgba(201,169,110,0.10);
-  color: var(--gold);
-  font-weight: 500;
-}
-#nav-sidebar .module tr.addlink a { padding-left: 28px; }
-
-/* ── 内容区标题 ── */
-#content h1 {
-  font-weight: 300;
-  color: var(--gold);
-  letter-spacing: 2px;
-  font-size: 1.2rem;
+  background: #131320;
+  border-right: 1px solid rgba(255,255,255,0.06);
 }
 
-/* ── 卡片容器 ── */
+/* ── 内容标题 ── */
+#content h1 { color: #c9a96e; }
+
+/* ── 卡片 module ── */
 .module {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 18px;
-  box-shadow: none;
+  background: #1a1a28;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 .module caption {
-  background: rgba(201,169,110,0.07) !important;
-  color: var(--gold) !important;
-  font-weight: 400;
-  letter-spacing: 1px;
-  padding: 10px 16px;
-  border-radius: 10px 10px 0 0;
-  text-transform: none;
+  background: rgba(201,169,110,0.06);
+  color: #c9a96e;
 }
 .module h2 {
-  background: rgba(201,169,110,0.05);
-  color: var(--gold);
-  font-weight: 400;
-  padding: 10px 16px;
-  font-size: 0.88rem;
+  background: rgba(201,169,110,0.04);
+  color: #c9a96e;
 }
 
 /* ── 表格 ── */
-table {
-  color: var(--text);
-  border-collapse: collapse;
-}
+table { color: #d0d0d0; }
 thead th {
   background: rgba(0,0,0,0.20);
-  color: var(--muted);
-  font-weight: 400;
-  font-size: 0.77rem;
-  letter-spacing: 0.5px;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border);
-  text-transform: none;
-}
-thead th a {
-  color: var(--muted);
-}
-thead th.sorted .text a {
-  color: var(--gold);
-}
-thead th.sortable .sortoptions a.sortremove::after {
-  color: var(--muted);
+  color: #7a7a8a;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 tbody td, tbody th {
-  padding: 10px 12px;
   border-bottom: 1px solid rgba(255,255,255,0.035);
-  font-size: 0.85rem;
-  vertical-align: middle;
+  color: #d0d0d0;
 }
-tbody tr:nth-child(even) td,
-tbody tr:nth-child(even) th {
-  background: rgba(255,255,255,0.012);
-}
-tbody tr:hover td,
-tbody tr:hover th {
-  background: rgba(201,169,110,0.025);
-}
-table thead th a:link, table thead th a:visited {
-  color: var(--muted);
-  font-size: 0.77rem;
-}
+tbody tr:nth-child(even) td { background: rgba(255,255,255,0.012); }
+tbody tr:hover td { background: rgba(201,169,110,0.025); }
 
 /* ── 链接 ── */
-a:link, a:visited { color: var(--gold); }
+a:link, a:visited { color: #c9a96e; }
+tbody td a:link, tbody td a:visited { color: #c9a96e; }
 
 /* ── 表单 ── */
 input[type="text"], input[type="password"], input[type="email"],
 input[type="url"], input[type="number"], textarea, select,
-.vTextField, .vLargeTextField {
-  background: var(--input-bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 6px;
-  padding: 7px 10px;
+.vTextField {
+  background: rgba(0,0,0,0.28);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #d0d0d0;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: var(--gold);
+  border-color: #c9a96e;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(201,169,110,0.10);
 }
+.form-row { border-bottom-color: rgba(255,255,255,0.035); }
+.form-row label { color: #d0d0d0; }
 fieldset.module { border: none; }
-.form-row {
-  border-bottom: 1px solid rgba(255,255,255,0.035);
-  padding: 12px 14px;
-}
-.form-row label { color: var(--text); font-size: 0.82rem; }
-.submit-row {
-  background: transparent !important;
-  border: none !important;
-  padding: 14px 0;
-}
-.help { color: var(--muted) !important; font-size: 0.73rem; }
-.errorlist li { color: #e07b5a; }
-div.readonly { color: var(--muted); }
+.help { color: #7a7a8a !important; }
+.submit-row { background: transparent !important; border: none !important; }
 
 /* ── 按钮 ── */
 .button, input[type="submit"], input[type="button"],
-.submit-row input, button[type="submit"],
-.object-tools a.addlink, .object-tools a.historylink {
-  background: var(--gold-dark);
+.submit-row input {
+  background: #a6843d;
   color: #fff;
   border: none;
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-size: 0.84rem;
-  cursor: pointer;
-  transition: opacity .2s;
 }
-.button:hover, input[type="submit"]:hover,
-.object-tools a.addlink:hover {
-  opacity: 0.82;
-}
-.button.default, input[type="submit"].default {
-  background: var(--gold);
+.button:hover, input[type="submit"]:hover { background: #b8954e; }
+.button.default, input[type="submit"].default,
+.submit-row input.default {
+  background: #c9a96e;
   color: #1a1a2e;
-  font-weight: 500;
 }
-a.button, a.button:link, a.button:visited {
+.button.default:hover { background: #d4b87a; }
+a.button:link, a.button:visited { color: #fff; }
+.object-tools a.addlink, .object-tools a.historylink {
+  background: #a6843d;
   color: #fff;
-  border-bottom: none;
 }
-a.deletelink {
+.object-tools a.addlink:hover { background: #b8954e; }
+a.deletelink:link, a.deletelink:visited {
   background: #b52525;
   color: #fff;
-  border-radius: 6px;
-  padding: 8px 16px;
 }
 
-/* ── 搜索栏 ── */
-#changelist-search {
-  margin-bottom: 14px;
-}
-#changelist-search div {
-  display: flex;
-  gap: 6px;
-  align-items: center;
+/* ── 搜索 ── */
+#changelist-search input[type="text"] {
+  background: rgba(0,0,0,0.28);
+  border-color: rgba(255,255,255,0.10);
+  color: #d0d0d0;
 }
 
-/* ── 筛选项 ── */
+/* ── 筛选 ── */
 #changelist-filter {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px;
+  background: #1a1a28;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 #changelist-filter h2 {
   background: transparent;
-  color: var(--gold);
-  font-weight: 400;
-  font-size: 0.78rem;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
+  color: #c9a96e;
 }
-#changelist-filter h3 {
-  color: var(--muted);
-  font-weight: 400;
-  font-size: 0.75rem;
-  padding-left: 8px;
-}
-#changelist-filter a { color: var(--muted); }
-#changelist-filter li.selected a { color: var(--gold) !important; font-weight: 500; }
+#changelist-filter h3 { color: #7a7a8a; }
+#changelist-filter a { color: #999; }
+#changelist-filter li.selected a { color: #c9a96e !important; }
 
-/* ── 分页器 ── */
+/* ── 分页 ── */
 #changelist .paginator {
   background: rgba(0,0,0,0.08);
-  border-top: 1px solid var(--border);
-  padding: 10px 14px;
-  font-size: 0.82rem;
+  border-top-color: rgba(255,255,255,0.06);
+  color: #777;
 }
-.paginator a { color: var(--gold); }
+.paginator a { color: #c9a96e; }
 
 /* ── 操作下拉 ── */
-.actions {
-  background: transparent;
-  border: none;
-}
 .actions select {
-  background: var(--input-bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 5px 8px;
+  background: rgba(0,0,0,0.28);
+  color: #d0d0d0;
+  border-color: rgba(255,255,255,0.10);
 }
 
 /* ── 消息提示 ── */
 .messagelist li {
   background: rgba(201,169,110,0.06);
-  border: 1px solid rgba(201,169,110,0.15);
-  border-radius: 6px;
-  color: var(--gold);
-  padding: 9px 14px;
-  font-size: 0.84rem;
+  border-color: rgba(201,169,110,0.15);
+  color: #c9a96e;
 }
 .messagelist li.success {
   background: rgba(80,160,100,0.06);
@@ -327,81 +174,41 @@ a.deletelink {
 }
 
 /* ── 登录页 ── */
-.login #content {
-  padding-top: 20px;
-}
 .login #container {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 36px 28px 24px;
+  background: #1a1a28;
+  border: 1px solid rgba(255,255,255,0.06);
 }
-.login .form-row label {
-  color: var(--text);
-  font-size: 0.84rem;
-}
+.login .form-row label { color: #d0d0d0; }
 .login .form-row input {
-  width: 100%;
-  padding: 10px 12px;
-}
-.login .submit-row {
-  border: none !important;
-  padding: 12px 0 0;
+  background: rgba(0,0,0,0.3);
+  border-color: rgba(255,255,255,0.10);
+  color: #d0d0d0;
 }
 .login .submit-row input {
-  width: 100%;
-  padding: 11px;
-  font-size: 0.95rem;
+  background: #c9a96e;
+  color: #1a1a2e;
 }
 
 /* ── 统计卡片（首页） ── */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
 .dash-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 14px;
-  text-align: center;
+  background: #1a1a28;
+  border: 1px solid rgba(255,255,255,0.06);
 }
-.dash-card .dash-value {
-  font-size: 1.7rem;
-  font-weight: 300;
-  color: var(--gold);
-}
-.dash-card .dash-label {
-  font-size: 0.73rem;
-  color: var(--muted);
-  margin-top: 2px;
-}
+.dash-card .dash-value { color: #c9a96e; }
+.dash-card .dash-label { color: #7a7a8a; }
 
-/* ── 关联选择器 ── */
-.selector-available h2,
-.selector-chosen h2 {
+/* ── selector ── */
+.selector-available h2, .selector-chosen h2 {
   background: rgba(201,169,110,0.06);
-  color: var(--gold);
-  font-weight: 400;
-  font-size: 0.8rem;
-}
-.selector select {
-  background: var(--input-bg);
-  color: var(--text);
-  border-color: var(--border);
+  color: #c9a96e;
 }
 
 /* ── 滚动条 ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
-
-/* ── 小修 ── */
-.field-is_approved img { filter: brightness(0) invert(1); }
-.status-message { font-size: 0.8rem; }
-div.help { margin-left: 0 !important; padding-left: 0 !important; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.15);
+}
 </style>
 {% endblock %}
