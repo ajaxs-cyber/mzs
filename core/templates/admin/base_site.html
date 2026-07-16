@@ -8,401 +8,400 @@
 
 {% block extrahead %}{{ block.super }}
 <style>
+/* ══════════════════════════════════════════
+   钢琴音乐角 管理后台 — 金棕深色主题
+   ══════════════════════════════════════════ */
+
+/* ── 基础变量 ── */
 :root {
   --gold: #c9a96e;
   --gold-dark: #a6843d;
-  --bg-dark: #0f0f14;
-  --bg-card: #1a1a24;
-  --bg-sidebar: #12121a;
-  --border: rgba(255,255,255,0.08);
-  --text: #d0d0d0;
-  --text-dim: #888;
-  --accent: #417690;
+  --dark-bg: #111119;
+  --card-bg: #1a1a26;
+  --input-bg: rgba(0,0,0,0.30);
+  --border: rgba(255,255,255,0.07);
+  --text: #d4d4d4;
+  --muted: #7a7a8a;
 }
 
-/* ═══ Body ═══ */
+/* ── 全局 ── */
 body {
-  background: var(--bg-dark);
+  background: var(--dark-bg);
   color: var(--text);
-  font-family: "PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  font-family: "PingFang SC","Microsoft YaHei",sans-serif;
 }
 body.login {
-  background: linear-gradient(160deg, #0f0f14 0%, #1a1a2e 50%, #0f0f1a 100%);
+  background: linear-gradient(155deg, #0c0c14 0%, #181830 50%, #0c0c18 100%);
 }
+body.popup { background: var(--dark-bg); }
 
-/* ═══ Header ═══ */
+/* ── 顶部 Header ── */
 #header {
-  background: var(--bg-sidebar);
-  border-bottom: 1px solid rgba(201,169,110,0.15);
+  background: #13131f;
   color: var(--gold);
-  padding: 0 24px;
-  height: 52px;
-  display: flex;
-  align-items: center;
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+  height: 50px;
+  line-height: 50px;
+  padding: 0 22px;
+  overflow: visible;
 }
-#header a { color: var(--gold); }
-#header #branding h1 { font-weight: 300; letter-spacing: 2px; font-size: 1.05rem; }
-#header #branding h1 a { color: var(--gold); text-decoration: none; }
-#header #user-tools { font-size: 0.78rem; color: #666; }
-#header #user-tools a { color: var(--gold); border-bottom: none; }
+#header #branding h1 {
+  font-weight: 300;
+  letter-spacing: 3px;
+  font-size: 1rem;
+  margin: 0;
+}
+#header #branding h1 a,
+#header #branding h1 a:link,
+#header #branding h1 a:visited { color: var(--gold); }
+#header #user-tools {
+  font-size: 0.78rem;
+  color: var(--muted);
+  height: 50px;
+  line-height: 50px;
+}
+#header #user-tools a {
+  color: var(--gold);
+  border-bottom: none;
+}
 
-/* ══ Breadcrumbs ══ */
+/* ── 面包屑 ── */
 div.breadcrumbs {
   background: rgba(255,255,255,0.02);
   border-bottom: 1px solid var(--border);
-  padding: 10px 24px;
-  font-size: 0.8rem;
-  color: #666;
+  padding: 8px 22px;
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 div.breadcrumbs a { color: var(--gold); }
 
-/* ═══ Sidebar ═══ */
+/* ── 侧边栏 ── */
 #nav-sidebar {
-  background: var(--bg-sidebar);
+  background: #13131f;
   border-right: 1px solid var(--border);
 }
 #nav-sidebar .module caption {
-  background: transparent;
   color: var(--gold);
-  font-weight: 400;
-  letter-spacing: 2px;
   font-size: 0.72rem;
-  text-transform: uppercase;
-  padding: 16px 16px 8px;
-  border-bottom: 1px solid rgba(201,169,110,0.1);
+  letter-spacing: 2px;
+  padding: 14px 14px 6px;
+  background: transparent;
+  border-bottom: 1px solid rgba(201,169,110,0.10);
 }
-#nav-sidebar .module th { background: transparent; }
-#nav-sidebar .module td, #nav-sidebar .module th { border-bottom: none; padding: 2px 0; }
+#nav-sidebar .module th,
+#nav-sidebar .module td { border: none; padding: 1px 0; }
 #nav-sidebar .module a {
-  color: var(--text);
-  padding: 4px 16px;
-  display: block;
-  border-radius: 0;
-  transition: all .2s;
-  font-size: 0.85rem;
+  color: #aaa;
+  padding: 5px 14px;
+  transition: all .15s;
 }
 #nav-sidebar .module a:hover,
 #nav-sidebar .module a:focus {
-  background: rgba(201,169,110,0.08);
+  background: rgba(201,169,110,0.07);
   color: var(--gold);
 }
-#nav-sidebar .module a.active,
-#nav-sidebar .module a.current {
-  background: rgba(201,169,110,0.12);
+#nav-sidebar .module a.current,
+#nav-sidebar .module a.active {
+  background: rgba(201,169,110,0.10);
   color: var(--gold);
   font-weight: 500;
 }
-#nav-sidebar .module a.addlink { padding-left: 30px; }
+#nav-sidebar .module tr.addlink a { padding-left: 28px; }
 
-/* ═══ Content ═══ */
-#content {
-  padding: 24px 28px;
-}
+/* ── 内容区标题 ── */
 #content h1 {
   font-weight: 300;
-  letter-spacing: 2px;
   color: var(--gold);
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(201,169,110,0.15);
+  letter-spacing: 2px;
+  font-size: 1.2rem;
 }
 
-/* ═══ Modules / Cards ═══ */
+/* ── 卡片容器 ── */
 .module {
-  background: var(--bg-card);
+  background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 20px;
+  border-radius: 10px;
+  margin-bottom: 18px;
   box-shadow: none;
 }
 .module caption {
-  background: rgba(201,169,110,0.08) !important;
+  background: rgba(201,169,110,0.07) !important;
   color: var(--gold) !important;
   font-weight: 400;
   letter-spacing: 1px;
-  font-size: 0.85rem;
-  padding: 12px 16px;
-  border-radius: 12px 12px 0 0;
+  padding: 10px 16px;
+  border-radius: 10px 10px 0 0;
   text-transform: none;
 }
 .module h2 {
-  background: rgba(201,169,110,0.06);
+  background: rgba(201,169,110,0.05);
   color: var(--gold);
   font-weight: 400;
-  padding: 12px 16px;
-  font-size: 0.9rem;
-  border-radius: 12px 12px 0 0;
+  padding: 10px 16px;
+  font-size: 0.88rem;
 }
 
-/* ═══ Tables ═══ */
-#changelist .results {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
+/* ── 表格 ── */
 table {
+  color: var(--text);
   border-collapse: collapse;
-  width: 100%;
 }
 thead th {
-  background: rgba(0,0,0,0.2);
-  color: var(--text-dim);
+  background: rgba(0,0,0,0.20);
+  color: var(--muted);
   font-weight: 400;
-  font-size: 0.78rem;
-  letter-spacing: 1px;
-  padding: 12px 14px;
-  text-transform: none;
+  font-size: 0.77rem;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
+  text-transform: none;
 }
-thead th a { color: var(--text-dim); }
-thead th.sorted .text a { color: var(--gold); }
-thead th.sorted .sortoptions a.sortremove::after { color: var(--text-dim); }
-tbody td {
-  padding: 11px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+thead th a {
+  color: var(--muted);
+}
+thead th.sorted .text a {
+  color: var(--gold);
+}
+thead th.sortable .sortoptions a.sortremove::after {
+  color: var(--muted);
+}
+tbody td, tbody th {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.035);
   font-size: 0.85rem;
   vertical-align: middle;
 }
-tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
-tbody tr:hover td { background: rgba(201,169,110,0.03); }
-tbody td a { color: var(--gold); }
-tbody td.field-__str__ a { font-weight: 500; }
+tbody tr:nth-child(even) td,
+tbody tr:nth-child(even) th {
+  background: rgba(255,255,255,0.012);
+}
+tbody tr:hover td,
+tbody tr:hover th {
+  background: rgba(201,169,110,0.025);
+}
+table thead th a:link, table thead th a:visited {
+  color: var(--muted);
+  font-size: 0.77rem;
+}
 
-/* ═══ Forms ═══ */
-form .form-row {
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  padding: 14px 0;
-}
-form .form-row label {
-  color: var(--text);
-  font-size: 0.85rem;
-}
-.form-row input, .form-row textarea, .form-row select {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.1);
+/* ── 链接 ── */
+a:link, a:visited { color: var(--gold); }
+
+/* ── 表单 ── */
+input[type="text"], input[type="password"], input[type="email"],
+input[type="url"], input[type="number"], textarea, select,
+.vTextField, .vLargeTextField {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
   color: var(--text);
   border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 0.88rem;
+  padding: 7px 10px;
 }
-.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+input:focus, textarea:focus, select:focus {
   border-color: var(--gold);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(201,169,110,0.1);
+  box-shadow: 0 0 0 2px rgba(201,169,110,0.10);
 }
+fieldset.module { border: none; }
+.form-row {
+  border-bottom: 1px solid rgba(255,255,255,0.035);
+  padding: 12px 14px;
+}
+.form-row label { color: var(--text); font-size: 0.82rem; }
 .submit-row {
   background: transparent !important;
   border: none !important;
-  padding: 16px 0;
+  padding: 14px 0;
 }
+.help { color: var(--muted) !important; font-size: 0.73rem; }
+.errorlist li { color: #e07b5a; }
+div.readonly { color: var(--muted); }
 
-/* ═══ Buttons ═══ */
+/* ── 按钮 ── */
 .button, input[type="submit"], input[type="button"],
-.submit-row input, button[type="submit"] {
+.submit-row input, button[type="submit"],
+.object-tools a.addlink, .object-tools a.historylink {
   background: var(--gold-dark);
   color: #fff;
   border: none;
-  padding: 9px 22px;
+  padding: 8px 20px;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   cursor: pointer;
   transition: opacity .2s;
-  letter-spacing: 0.5px;
 }
-.button:hover, input[type="submit"]:hover {
-  opacity: 0.85;
-  background: var(--gold-dark);
+.button:hover, input[type="submit"]:hover,
+.object-tools a.addlink:hover {
+  opacity: 0.82;
 }
 .button.default, input[type="submit"].default {
   background: var(--gold);
   color: #1a1a2e;
   font-weight: 500;
 }
-.button.default:hover { opacity: 0.85; background: var(--gold); }
-a.button { border-bottom: none; color: #fff !important; }
-a.deletelink {
-  background: #ba2121;
+a.button, a.button:link, a.button:visited {
   color: #fff;
-  border-radius: 6px;
-  padding: 9px 16px;
+  border-bottom: none;
 }
-a.deletelink:hover { opacity: 0.85; }
-
-/* ═══ Object Tools ═══ */
-.object-tools { margin-top: -40px; }
-.object-tools a.addlink,
-.object-tools a.historylink {
-  background: var(--gold-dark);
+a.deletelink {
+  background: #b52525;
   color: #fff;
   border-radius: 6px;
   padding: 8px 16px;
-  font-size: 0.82rem;
-  transition: opacity .2s;
-  border-bottom: none;
 }
-.object-tools a.addlink:hover { opacity: 0.85; }
 
-/* ═══ Changelist ═══ */
+/* ── 搜索栏 ── */
+#changelist-search {
+  margin-bottom: 14px;
+}
+#changelist-search div {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ── 筛选项 ── */
 #changelist-filter {
-  background: var(--bg-card);
+  background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 8px;
+  padding: 10px;
 }
 #changelist-filter h2 {
   background: transparent;
   color: var(--gold);
   font-weight: 400;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   letter-spacing: 1px;
+  margin-bottom: 6px;
 }
-#changelist-filter li.selected a { color: var(--gold) !important; }
-#changelist-filter a { color: var(--text-dim); }
-#changelist-filter a:hover { color: var(--gold); }
-#changelist-search { margin-bottom: 16px; }
-#changelist-search input[type="text"] {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
+#changelist-filter h3 {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.75rem;
+  padding-left: 8px;
 }
+#changelist-filter a { color: var(--muted); }
+#changelist-filter li.selected a { color: var(--gold) !important; font-weight: 500; }
 
-/* ═══ Paginator ═══ */
+/* ── 分页器 ── */
 #changelist .paginator {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.08);
   border-top: 1px solid var(--border);
-  padding: 10px;
-  color: var(--text-dim);
+  padding: 10px 14px;
   font-size: 0.82rem;
 }
 .paginator a { color: var(--gold); }
 
-/* ═══ Messages ═══ */
-.messagelist li {
-  background: rgba(201,169,110,0.08);
-  border: 1px solid rgba(201,169,110,0.2);
-  border-radius: 8px;
-  color: var(--gold);
-  padding: 10px 16px;
-  font-size: 0.85rem;
+/* ── 操作下拉 ── */
+.actions {
+  background: transparent;
+  border: none;
 }
-.messagelist li.success { background: rgba(100,180,120,0.08); border-color: rgba(100,180,120,0.2); color: #8cd4a0; }
-.messagelist li.warning { background: rgba(200,160,60,0.08); border-color: rgba(200,160,60,0.2); color: #d4b060; }
-.messagelist li.error { background: rgba(200,80,60,0.08); border-color: rgba(200,80,60,0.2); color: #e07b5a; }
-
-/* ═══ Login Page ═══ */
-.login #container {
-  background: var(--bg-card);
+.actions select {
+  background: var(--input-bg);
+  color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 40px 32px;
-  margin-top: 60px;
+  border-radius: 5px;
+  padding: 5px 8px;
 }
-.login #header { background: transparent; border: none; }
-.login #content { padding: 0; }
-.login .form-row label { color: var(--text); }
+
+/* ── 消息提示 ── */
+.messagelist li {
+  background: rgba(201,169,110,0.06);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 6px;
+  color: var(--gold);
+  padding: 9px 14px;
+  font-size: 0.84rem;
+}
+.messagelist li.success {
+  background: rgba(80,160,100,0.06);
+  border-color: rgba(80,160,100,0.15);
+  color: #7cc898;
+}
+.messagelist li.error {
+  background: rgba(200,70,50,0.06);
+  border-color: rgba(200,70,50,0.15);
+  color: #e07b5a;
+}
+
+/* ── 登录页 ── */
+.login #content {
+  padding-top: 20px;
+}
+.login #container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 36px 28px 24px;
+}
+.login .form-row label {
+  color: var(--text);
+  font-size: 0.84rem;
+}
 .login .form-row input {
   width: 100%;
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 8px;
-  padding: 10px 14px;
+  padding: 10px 12px;
+}
+.login .submit-row {
+  border: none !important;
+  padding: 12px 0 0;
 }
 .login .submit-row input {
   width: 100%;
-  background: var(--gold);
-  color: #1a1a2e;
-  padding: 12px;
+  padding: 11px;
   font-size: 0.95rem;
-  border-radius: 8px;
 }
 
-/* ═══ Dashboard Cards ═══ */
+/* ── 统计卡片（首页） ── */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
 }
 .dash-card {
-  background: var(--bg-card);
+  background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 16px;
+  border-radius: 10px;
+  padding: 18px 14px;
   text-align: center;
-  transition: border-color .2s, transform .2s;
-}
-.dash-card:hover {
-  border-color: rgba(201,169,110,0.2);
-  transform: translateY(-1px);
 }
 .dash-card .dash-value {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 300;
   color: var(--gold);
 }
 .dash-card .dash-label {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  margin-top: 4px;
+  font-size: 0.73rem;
+  color: var(--muted);
+  margin-top: 2px;
 }
 
-/* ═══ App List ═══ */
-.app-list .module table th { background: transparent; }
-.app-list .module table a { color: var(--gold); }
-.app-list .module table td { border-bottom: 1px solid rgba(255,255,255,0.04); }
-
-/* ═══ Fieldset ═══ */
-fieldset.module {
-  border: none;
-}
-.module.aligned h2 {
-  background: rgba(201,169,110,0.04);
+/* ── 关联选择器 ── */
+.selector-available h2,
+.selector-chosen h2 {
+  background: rgba(201,169,110,0.06);
   color: var(--gold);
   font-weight: 400;
-  font-size: 0.85rem;
-  padding: 10px 14px;
+  font-size: 0.8rem;
+}
+.selector select {
+  background: var(--input-bg);
+  color: var(--text);
+  border-color: var(--border);
 }
 
-/* ═══ Dark scrollbar ═══ */
-::-webkit-scrollbar { width: 6px; }
+/* ── 滚动条 ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
 
-/* ═══ Help text ═══ */
-.help { color: var(--text-dim); font-size: 0.75rem; }
-
-/* ═══ Related widget (FK select) ═══ */
-.related-widget-wrapper select {
-  background: rgba(0,0,0,0.25);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
-.selector-available h2, .selector-chosen h2 {
-  background: rgba(201,169,110,0.08);
-  color: var(--gold);
-  font-weight: 400;
-}
-
-/* ═══ Admin actions ═══ */
-#changelist .actions {
-  background: transparent;
-  border: none;
-  padding: 8px 0;
-}
-#changelist .actions select {
-  background: rgba(0,0,0,0.25);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 10px;
-}
+/* ── 小修 ── */
+.field-is_approved img { filter: brightness(0) invert(1); }
+.status-message { font-size: 0.8rem; }
+div.help { margin-left: 0 !important; padding-left: 0 !important; }
 </style>
 {% endblock %}
