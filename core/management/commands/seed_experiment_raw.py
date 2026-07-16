@@ -66,8 +66,8 @@ class Command(BaseCommand):
         Message.objects.all().delete()
 
         tz = timezone.get_current_timezone()
-        date_a = datetime(2026, 7, 10, tzinfo=tz)  # 周四 无演奏
-        date_b = datetime(2026, 7, 12, tzinfo=tz)  # 周六 有演奏
+        date_a = datetime(2026, 7, 6, tzinfo=tz)   # 周一 无演奏
+        date_b = datetime(2026, 7, 7, tzinfo=tz)   # 周二 有演奏
 
         # ===== PageVisit =====
         pv_a_ids = []
@@ -204,5 +204,5 @@ class Command(BaseCommand):
             f'  PageVisit      — A组: {pv_a}   B组: {pv_b}\n'
             f'  SurveyResponse  — A组: {sv_a}   B组: {sv_b}\n'
             f'  Message         — A组: {msg_a}   B组: {msg_b}\n'
-            f'  A组日期: 2026-07-10（周四·无演奏）  B组日期: 2026-07-12（周六·有演奏）'
+            f'  A组日期: 2026-07-06（周一·无演奏）  B组日期: 2026-07-07（周二·有演奏）'
         ))
